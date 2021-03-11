@@ -9,7 +9,6 @@ export default function createNote(option) {
     let isNoiseCut = false;
 
     let note2;
-
     // 音色の設定 //
     switch (this.channels[note.channel][0]*1000 || option.instrument) {
         // Sine
@@ -17,6 +16,7 @@ export default function createNote(option) {
         case  6: case 15: case 24: case 26: case 46: case 50: case 51:
         case 52: case 53: case 54: case 82: case 85: case 86:
         {
+            oscillator.buffer = this.fmtones[0];
             oscillator.type = "sine";
             gainNode.gain.value *= 1.5;
             break;
@@ -28,6 +28,7 @@ export default function createNote(option) {
         case 76: case 77: case 78: case 79: case 80: case 84:
         {
             oscillator.type = "square";
+            oscillator.buffer = this.fmtones[1];
             gainNode.gain.value *= 0.8;
             break;
         }
@@ -38,6 +39,8 @@ export default function createNote(option) {
         case 44: case 47: case 59: case 64: case 65: case 66: case 67: case 68: case 69: case 70: case 87:
         {
             oscillator.type = "sawtooth";
+            oscillator.buffer = this.fmtones[2];
+
             break;
         }
         // Triangle
@@ -46,11 +49,14 @@ export default function createNote(option) {
         case 83: case 88: case 89: case 90: case 91: case 92: case 93: case 94: case 95:
         {
             oscillator.type = "triangle";
+            oscillator.buffer = this.fmtones[3];
+
             gainNode.gain.value *= 1.5;
             break;
         }
         // Other - Square
         default:{
+            oscillator.buffer = this.fmtones[1];
             oscillator.type = "square";
         }
     }

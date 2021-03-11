@@ -60,7 +60,7 @@ export default function createBaseNote(option, isDrum, isExpression, nonChannel,
             );
         }) : false;
         */
-        oscillator.buffer = this.fmtones[0];
+        
         this.setFrequency(oscillator, pitch);
         oscillator.loop = true;
     } else {
