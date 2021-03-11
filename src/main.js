@@ -139,7 +139,37 @@ class PicoAudio {
     createPercussionNote(option) {
         return createPercussionNote.call(this, option);
     }
+    setFrequency(oscillator, ..._freqTimes) {
+        //  sampleRate = 10240   sampleLength= 1024;
+        //  rate=1  => 10hz  (sampleRate/sampleLength)
+        //  pitch = 440hz  =>  44   (pitch / sampleLength * sampleRate)
+        const freqTimes=[];
+        for (let i=0;i<_freqTimes.length;i+=2) {
+            freqTimes.push({value:_freqTimes[i], time: _freqTimes[i+1]});
+        }
+        let target;
+        if (oscillator.frequency) {
+            target=oscillator.frequency;
+            //value = frequency;
+        } else {
+            const sampleRate=oscillator.buffer.sampleRate;
+            const sampleLength=oscillator.buffer.getChannelData(0).length;
+            target=oscillator.playbackRate;
+            for (const e of freqTimes) {
+                e.value *= sampleLength / sampleRate;
+            }
+            //console.log(freqTimes[0].value, sampleRate , sampleLength);
+        }
 
+        if (freqTimes.length===1 && freqTimes[0].time==null) {
+            target.value=freqTimes[0].value;
+        } else {
+            target.setValueAtTime(freqTimes[0].value, freqTimes[0].time);
+            for (let i=1; i<freqTimes.length ;i++) {
+                target.linearRampToValueAtTime(freqTimes[i].value, freqTimes[i].time);
+            }
+        }
+    }
     // 停止管理関係 //
     stopAudioNode(tar, time, stopGainNode, isNoiseCut) {
         return stopAudioNode.call(this, tar, time, stopGainNode, isNoiseCut);

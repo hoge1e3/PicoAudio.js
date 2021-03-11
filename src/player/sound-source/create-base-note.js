@@ -33,12 +33,11 @@ export default function createBaseNote(option, isDrum, isExpression, nonChannel,
     if (isGainValueZero) { // 音量が常に0なら音を鳴らさない
         return {isGainValueZero: true};
     }
-
     // 全ての変数を準備 //
     const start = option.startTime + songStartTime + baseLatency;
     const stop = option.stopTime + songStartTime + baseLatency;
     const pitch = settings.basePitch * Math.pow(Math.pow(2, 1/12), (option.pitch || 69) - 69);
-    const oscillator = !isDrum ? context.createOscillator() : context.createBufferSource();
+    const oscillator = /*!isDrum ? context.createOscillator() :*/ context.createBufferSource();
     const panNode = context.createStereoPanner ? context.createStereoPanner()
         : context.createPanner ? context.createPanner()
         : { pan: { setValueAtTime: ()=>{} } };
@@ -48,6 +47,7 @@ export default function createBaseNote(option, isDrum, isExpression, nonChannel,
     // ドラムはホワイトノイズ、ドラム以外はoscillatorを設定 //
     // oscillatorはピッチ変動も設定 //
     if (!isDrum) {
+        /*
         oscillator.type = option.type || "sine";
         oscillator.detune.value = 0;
         oscillator.frequency.value = pitch;
@@ -59,6 +59,10 @@ export default function createBaseNote(option, isDrum, isExpression, nonChannel,
                 t
             );
         }) : false;
+        */
+        oscillator.buffer = this.fmtones[0];
+        this.setFrequency(oscillator, pitch);
+        oscillator.loop = true;
     } else {
         oscillator.loop = true;
         oscillator.buffer = this.whitenoise;
@@ -165,7 +169,7 @@ export default function createBaseNote(option, isDrum, isExpression, nonChannel,
         modulationGainNode.gain.value = pitch * 10 / 440 * m;
         modulationOscillator.frequency.value = 6;
         modulationOscillator.connect(modulationGainNode);
-        modulationGainNode.connect(oscillator.frequency);
+        //modulationGainNode.connect(oscillator.frequency);
     }
 
     // リバーブの変動を設定 //
@@ -245,8 +249,8 @@ export default function createBaseNote(option, isDrum, isExpression, nonChannel,
 
 /**
  * パンの初期値を設定
- * @param {PannerNode | StereoPannerNode} panNode 
- * @param {number} panValue 
+ * @param {PannerNode | StereoPannerNode} panNode
+ * @param {number} panValue
  */
 function initPanValue(context, panNode, panValue) {
     if (context.createStereoPanner) {

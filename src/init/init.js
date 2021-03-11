@@ -44,7 +44,21 @@ export default function init(argsObj) {
         this.whitenoise = this.context.createBuffer(2, sampleLength, sampleRate);
         InterpolationUtil.lerpWave(this.whitenoise, vtBufs);
     }
-
+    // FM音源用バッファ
+    if (picoAudio && picoAudio.fmtones) { // 使いまわし
+        this.fmtones = picoAudio.fmtones;
+    } else {
+        const sampleLength=1024;
+        this.fmtones=[
+            this.context.createBuffer(1, sampleLength, sampleRate)
+        ];
+        const data=this.fmtones[0].getChannelData(0);
+        const s=t=>Math.sin(t*Math.PI*2)*1;
+        for (let i=0;i<sampleLength;i++) {
+            const t=i/sampleLength;
+            data[i]=s(t+s(t*3)*0.75);
+        }
+    }
     // リバーブ用のインパルス応答音声データ作成（てきとう） //
     if (picoAudio && picoAudio.impulseResponse) { // 使いまわし
         this.impulseResponse = picoAudio.impulseResponse;

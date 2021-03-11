@@ -28,8 +28,8 @@ export default function createPercussionNote(option) {
             stopAudioTime = 0.07;
             // s
             gainNode2.gain.value = velocity*1.1;
-            oscillator.frequency.setValueAtTime(120, start);
-            oscillator.frequency.linearRampToValueAtTime(50, start+0.07);
+            this.setFrequency(oscillator, 120, start, 50, start+0.07);//.frequency.setValueAtTime(120, start);
+            //oscillator.frequency.linearRampToValueAtTime(50, start+0.07);
             stopAudioTime2 = 0.07;
             break;
         // Snare
@@ -41,8 +41,8 @@ export default function createPercussionNote(option) {
             // s
             gainNode2.gain.setValueAtTime(velocity*0.8, start);
             gainNode2.gain.linearRampToValueAtTime(0.0, start+0.05);
-            oscillator.frequency.setValueAtTime(300, start);
-            oscillator.frequency.linearRampToValueAtTime(200, start+0.05);
+            this.setFrequency(oscillator, 300, start, 200, start+0.05);//.frequency.setValueAtTime(300, start);
+            //oscillator.frequency.linearRampToValueAtTime(200, start+0.05);
             stopAudioTime2 = 0.05;
             break;
         // Toms
@@ -55,8 +55,8 @@ export default function createPercussionNote(option) {
             oscillator.type = "square";
             gainNode2.gain.setValueAtTime(velocity, start);
             gainNode2.gain.linearRampToValueAtTime(0.01, start+0.1);
-            oscillator.frequency.setValueAtTime(150+20*(option.pitch-40), start);
-            oscillator.frequency.linearRampToValueAtTime(50+20*(option.pitch-40), start+0.1);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/150+20*(option.pitch-40), start, /*);
+            oscillator.frequency.linearRampToValueAtTime(*/50+20*(option.pitch-40), start+0.1);
             stopAudioTime2 = 0.1;
             break;
         // Close Hihat
@@ -107,8 +107,8 @@ export default function createPercussionNote(option) {
             // s
             gainNode2.gain.setValueAtTime(velocity*0.8, start);
             gainNode2.gain.linearRampToValueAtTime(0.0, start+0.1);
-            oscillator.frequency.setValueAtTime(400-40*(option.pitch-60), start);
-            oscillator.frequency.linearRampToValueAtTime(450-40*(option.pitch-60), start+0.1);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/400-40*(option.pitch-60), start,/*);
+            oscillator.frequency.linearRampToValueAtTime(*/450-40*(option.pitch-60), start+0.1);
             stopAudioTime2 = 0.1;
             break;
         // mute Conga
@@ -119,8 +119,8 @@ export default function createPercussionNote(option) {
             // s
             gainNode2.gain.setValueAtTime(velocity, start);
             gainNode2.gain.linearRampToValueAtTime(0.0, start+0.03);
-            oscillator.frequency.setValueAtTime(200, start);
-            oscillator.frequency.linearRampToValueAtTime(250, start+0.03);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/200, start,/*);
+            oscillator.frequency.linearRampToValueAtTime(*/250, start+0.03);
             stopAudioTime2 = 0.03;
             break;
         // open Conga
@@ -131,8 +131,8 @@ export default function createPercussionNote(option) {
             // s
             gainNode2.gain.setValueAtTime(velocity, start);
             gainNode2.gain.linearRampToValueAtTime(0.0, start+0.1);
-            oscillator.frequency.setValueAtTime(200-30*(option.pitch-63), start);
-            oscillator.frequency.linearRampToValueAtTime(250-30*(option.pitch-63), start+0.1);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/200-30*(option.pitch-63), start,/*);
+            oscillator.frequency.linearRampToValueAtTime(*/250-30*(option.pitch-63), start+0.1);
             stopAudioTime2 = 0.1;
             break;
         // Cowbell, Claves
@@ -144,7 +144,7 @@ export default function createPercussionNote(option) {
             // s
             gainNode2.gain.setValueAtTime(velocity, start);
             gainNode2.gain.linearRampToValueAtTime(0.0, start+0.1);
-            oscillator.frequency.setValueAtTime(1000+48*(option.pitch-56), start);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/1000+48*(option.pitch-56), start);
             stopAudioTime2 = 0.1;
             break;
         // mute triangle
@@ -158,7 +158,7 @@ export default function createPercussionNote(option) {
             oscillator.type = "triangle";
             gainNode2.gain.setValueAtTime(velocity*0.7, start);
             gainNode2.gain.linearRampToValueAtTime(0.0, start+0.2);
-            oscillator.frequency.setValueAtTime(6000, start);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/6000, start);
             stopAudioTime2 = 0.05;
             break;
         // open triangle
@@ -172,7 +172,7 @@ export default function createPercussionNote(option) {
             oscillator.type = "triangle";
             gainNode2.gain.setValueAtTime(velocity*0.8, start);
             gainNode2.gain.linearRampToValueAtTime(0.0, start+0.3);
-            oscillator.frequency.setValueAtTime(6000, start);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/6000, start);
             stopAudioTime2 = 0.3;
             break;
 
@@ -189,8 +189,8 @@ export default function createPercussionNote(option) {
             gainNode.gain.linearRampToValueAtTime(0, start+0.041);
             stopAudioTime = 0.041;
             // s
-            oscillator.frequency.setValueAtTime(330, start);
-            oscillator.frequency.linearRampToValueAtTime(120, start+0.02);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/330, start,/*);
+            oscillator.frequency.linearRampToValueAtTime(*/120, start+0.02);
             gainNode2.gain.setValueAtTime(velocity, start);
             gainNode2.gain.linearRampToValueAtTime(0, start+0.02);
             stopAudioTime2 = 0.02;
@@ -209,7 +209,7 @@ export default function createPercussionNote(option) {
             stopAudioTime = 0.09;
             // s
             oscillator.type = "triangle";
-            oscillator.frequency.setValueAtTime(180, start);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/180, start);
             gainNode2.gain.setValueAtTime(velocity*0.8, start);
             gainNode2.gain.linearRampToValueAtTime(0, start+0.010);
             gainNode2.gain.setValueAtTime(velocity*0.8, start+0.0101);
@@ -231,7 +231,7 @@ export default function createPercussionNote(option) {
             gainNode.gain.setTargetAtTime(0, start+len, 0.05);
             stopAudioTime = 0.3;
             // s
-            oscillator.frequency.setValueAtTime(option.pitch==54 ? 6000 : 495, start);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/option.pitch==54 ? 6000 : 495, start);
             v = option.pitch==54 ? 1 : 2;
             gainNode2.gain.setValueAtTime(velocity*v/2, start);
             gainNode2.gain.linearRampToValueAtTime(velocity*v, start+len);
@@ -258,7 +258,7 @@ export default function createPercussionNote(option) {
             stopAudioTime = 0.8;
             // s
             oscillator.type = "triangle";
-            oscillator.frequency.setValueAtTime(1000, start);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/1000, start);
             stopAudioTime2 = 0.8;
             break;
         }
@@ -275,8 +275,8 @@ export default function createPercussionNote(option) {
             stopAudioTime = len;
             // s
             oscillator.type = "triangle";
-            oscillator.frequency.setValueAtTime(option.pitch==65 ? 190*1.07 : 136*1.07, start);
-            oscillator.frequency.linearRampToValueAtTime(option.pitch==65 ? 190 : 136, start+0.1);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/option.pitch==65 ? 190*1.07 : 136*1.07, start,/*);
+            oscillator.frequency.linearRampToValueAtTime(*/option.pitch==65 ? 190 : 136, start+0.1);
             gainNode2.gain.setValueAtTime(velocity*3.2, start);
             gainNode2.gain.setTargetAtTime(0, start, 0.08);
             stopAudioTime2 = 1;
@@ -293,8 +293,8 @@ export default function createPercussionNote(option) {
             stopAudioTime = 0.08;
             // s
             oscillator.type = "triangle";
-            oscillator.frequency.setValueAtTime(option.pitch==67 ? 1430 : 1055, start);
-            gainNode2.gain.setValueAtTime(velocity*2, start);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/option.pitch==67 ? 1430 : 1055, start,/*);
+            gainNode2.gain.setValueAtTime(*/velocity*2, start);
             gainNode2.gain.setTargetAtTime(0, start, 0.06);
             stopAudioTime2 = 0.75;
             break;
@@ -333,8 +333,8 @@ export default function createPercussionNote(option) {
             // s
             const len = option.pitch==71 ? 0.07 : 0.4;
             oscillator.type = "triangle";
-            oscillator.frequency.setValueAtTime(option.pitch==71 ? 2408 : 2105, start);
-            gainNode2.gain.setValueAtTime(0, start);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/option.pitch==71 ? 2408 : 2105, start,/*);
+            gainNode2.gain.setValueAtTime(*/0, start);
             for (let i=0; i<len*74; i++) {
                 gainNode2.gain.linearRampToValueAtTime(velocity*2.5, start+(i+0.2)/75);
                 gainNode2.gain.linearRampToValueAtTime(velocity*0.5, start+(i+0.9)/75);
@@ -370,8 +370,8 @@ export default function createPercussionNote(option) {
             gainNode.gain.linearRampToValueAtTime(0, start+0.015);
             stopAudioTime = 0.015;
             // s
-            oscillator.frequency.setValueAtTime(option.pitch==76 ? 800 : 600, start);
-            gainNode2.gain.setValueAtTime(0, start);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/option.pitch==76 ? 800 : 600, start,/*);
+            gainNode2.gain.setValueAtTime(*/0, start);
             gainNode2.gain.linearRampToValueAtTime(velocity*3, start+0.005);
             gainNode2.gain.setTargetAtTime(0, start+0.005, 0.02);
             stopAudioTime2 = 0.2;
@@ -386,8 +386,8 @@ export default function createPercussionNote(option) {
             // s
             const len = 0.18;
             const f = option.pitch==78 ? 750 : 270;
-            oscillator.frequency.setValueAtTime(f, start);
-            oscillator.frequency.linearRampToValueAtTime(f, start+len/3);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/f, start,/*);
+            oscillator.frequency.linearRampToValueAtTime(*/f, start+len/3);
             if (option.pitch==78) oscillator.frequency.linearRampToValueAtTime(f*0.9, start+len);
             gainNode2.gain.setValueAtTime(0, start);
             gainNode2.gain.linearRampToValueAtTime(velocity*1.5, start+0.005);
@@ -407,9 +407,10 @@ export default function createPercussionNote(option) {
             gainNode.gain.linearRampToValueAtTime(0, start+0.002);
             stopAudioTime = 0.002;
             // s
-            oscillator.frequency.setValueAtTime(1500, start);
+            this.setFrequency(oscillator, 1500, start, 280, start+0.015, 0, start+0.07);
+            /*oscillator.frequency.setValueAtTime(1500, start);
             oscillator.frequency.linearRampToValueAtTime(280, start+0.015);
-            oscillator.frequency.linearRampToValueAtTime(0, start+0.07);
+            oscillator.frequency.linearRampToValueAtTime(0, start+0.07);*/
             gainNode2.gain.setValueAtTime(velocity*1.9, start);
             gainNode2.gain.linearRampToValueAtTime(0, start+0.07);
             stopAudioTime2 = 0.07;
@@ -459,12 +460,14 @@ export default function createPercussionNote(option) {
             const r4 = option.pitch==29 ? 500 : 400;
             const r5 = option.pitch==29 ? 1950 : 1200;
             const r6 = option.pitch==29 ? 430 : 250;
-            oscillator.frequency.setValueAtTime(r4, start);
-            oscillator.frequency.linearRampToValueAtTime(r5, start+t1);
-            oscillator.frequency.linearRampToValueAtTime(0, start+t2);
-            oscillator.frequency.linearRampToValueAtTime(r5, start+t3);
-            oscillator.frequency.linearRampToValueAtTime(r6, start+t4);
-            oscillator.frequency.linearRampToValueAtTime(0, start+t5);
+
+            this.setFrequency(oscillator, /*
+            oscillator.frequency.setValueAtTime(*/r4, start,/*);
+            oscillator.frequency.linearRampToValueAtTime(*/r5, start+t1,/*
+            oscillator.frequency.linearRampToValueAtTime(*/0, start+t2,/*;
+            oscillator.frequency.linearRampToValueAtTime(*/r5, start+t3,/*;
+            oscillator.frequency.linearRampToValueAtTime(*/r6, start+t4,/*;
+            oscillator.frequency.linearRampToValueAtTime(*/0, start+t5);
             gainNode2.gain.setValueAtTime(0, start);
             gainNode2.gain.linearRampToValueAtTime(velocity*0.7, start+t1);
             gainNode2.gain.linearRampToValueAtTime(velocity*0.2, start+t3);
@@ -482,7 +485,7 @@ export default function createPercussionNote(option) {
             gainNode.gain.setTargetAtTime(0, start, 0.035);
             stopAudioTime = 0.3;
             // s
-            oscillator.frequency.setValueAtTime(3140, start);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/3140, start);
             gainNode2.gain.setValueAtTime(velocity*1.2, start);
             gainNode2.gain.setTargetAtTime(0, start, 0.012);
             stopAudioTime2 = 0.3;
@@ -495,7 +498,8 @@ export default function createPercussionNote(option) {
             stopAudioTime = 0;
             // s
             oscillator.type = "square";
-            oscillator.frequency.setValueAtTime(333, start);
+            this.setFrequency(oscillator, 333, start);
+            //oscillator.frequency.setValueAtTime(333, start);
             gainNode2.gain.setValueAtTime(0, start);
             gainNode2.gain.linearRampToValueAtTime(velocity*4, start+0.0016);
             gainNode2.gain.linearRampToValueAtTime(0, start+0.0032);
@@ -513,7 +517,7 @@ export default function createPercussionNote(option) {
             stopAudioTime = 0.3;
             // s
             if (option.pitch==34) {
-                oscillator.frequency.setValueAtTime(2040, start);
+                this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/2040, start);
                 gainNode2.gain.setValueAtTime(velocity*1, start);
                 gainNode2.gain.setTargetAtTime(0, start, 0.12);
                 stopAudioTime2 = 1.1;
@@ -546,8 +550,8 @@ export default function createPercussionNote(option) {
             stopAudioTime = 0.5;
             // s
             oscillator.type = "triangle";
-            oscillator.frequency.setValueAtTime(2709, start);
-            oscillator.frequency.linearRampToValueAtTime(2657, start+0.3);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/2709, start,/*);
+            oscillator.frequency.linearRampToValueAtTime(*/2657, start+0.3);
             gainNode2.gain.setValueAtTime(0, start);
             gainNode2.gain.linearRampToValueAtTime(velocity*0.7, start+0.025);
             gainNode2.gain.setTargetAtTime(0, start+0.025, 0.07);
@@ -562,7 +566,7 @@ export default function createPercussionNote(option) {
             for (let i=0; i<28; i++) {
                 gainNode.gain.setValueAtTime(velocity*0.1, start+i/24*0.45);
                 gainNode.gain.setTargetAtTime(0, start+i/24*0.45, 0.01);
-                oscillator.frequency.setValueAtTime(1380*(1+(invert ? (24-i)/24 : i/24)), start+i/24*0.45);
+                this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/1380*(1+(invert ? (24-i)/24 : i/24)), start+i/24*0.45);
                 gainNode2.gain.setValueAtTime(velocity*(0.2+i/24), start+i/24*0.45);
                 gainNode2.gain.setTargetAtTime(0, start+i/24*0.45, i==27 ? 0.2 : 0.01);
             }
@@ -578,7 +582,7 @@ export default function createPercussionNote(option) {
             gainNode.gain.setTargetAtTime(0, start, 0.01);
             stopAudioTime = 0.1;
             // s
-            oscillator.frequency.setValueAtTime(1730, start);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/1730, start);
             gainNode2.gain.setValueAtTime(velocity*0.5, start);
             gainNode2.gain.setTargetAtTime(0, start, 0.01);
             stopAudioTime2 = 0.1;
@@ -595,8 +599,8 @@ export default function createPercussionNote(option) {
             gainNode.gain.setTargetAtTime(0, start+0.005, option.pitch==86 ? 0.03 : 0.06);
             stopAudioTime = 0.5;
             // s
-            oscillator.frequency.setValueAtTime(88, start);
-            oscillator.frequency.linearRampToValueAtTime(86, start+0.3);
+            this.setFrequency(oscillator,/*.frequency.setValueAtTime(*/88, start,/*);
+            oscillator.frequency.linearRampToValueAtTime(*/86, start+0.3);
             gainNode2.gain.setValueAtTime(velocity*2.5, start);
             gainNode2.gain.setTargetAtTime(0, start, option.pitch==86 ? 0.1 : 0.3);
             stopAudioTime2 = option.pitch==86 ? 0.5 : 1.5;
