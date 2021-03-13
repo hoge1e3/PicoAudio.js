@@ -139,6 +139,16 @@ class PicoAudio {
     createPercussionNote(option) {
         return createPercussionNote.call(this, option);
     }
+    setWaveData(no, array) {
+        // array with lambda = this.context.sampleRate/this.baseFreq;
+        const baseFreq=this.baseFreq;
+        const sampleRate=this.context.sampleRate;
+        this.fmtones[no]=this.context.createBuffer(1, array.length, sampleRate);
+        const data=this.fmtones[no].getChannelData(0);
+        for (let i=0;i<data.length;i++) {
+            data[i]=array[i];
+        }
+    }
     setFrequency(oscillator, ..._freqTimes) {
         // _freqTimes = [周波数, 時刻, 周波数, 時刻, ....]
         const freqTimes=[];
@@ -148,16 +158,12 @@ class PicoAudio {
         let target;
         if (oscillator.frequency) {// 本物のoccilatorの場合
             target=oscillator.frequency;
-            //value = frequency;
         } else {// Bufferの場合
-            const baseFreq=48; // Buffer生音の周波数(init.jsも参照)
-            //const sampleRate=oscillator.buffer.sampleRate;
-            //const sampleLength=oscillator.buffer.getChannelData(0).length;
+            const baseFreq=this.baseFreq; // Buffer生音の周波数(init.jsも参照)
             target=oscillator.playbackRate;
             for (const e of freqTimes) {
                 e.value /= baseFreq;//再生速度= 周波数/baseFreq
             }
-            //console.log(freqTimes[0].value, sampleRate , sampleLength);
         }
         if (freqTimes.length===1 && freqTimes[0].time==null) {
             target.value=freqTimes[0].value;
