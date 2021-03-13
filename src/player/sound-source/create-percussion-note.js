@@ -1,5 +1,6 @@
 export default function createPercussionNote(option) {
-    const note = this.createBaseNote(option, true, false);
+    const o=Object.assign(option,{isPercussion:false});
+    const note = this.createBaseNote(o, true, false);
     if (note.isGainValueZero) return null;
 
     const source = note.oscillator;

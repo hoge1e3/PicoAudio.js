@@ -37,7 +37,7 @@ export default function createBaseNote(option, isDrum, isExpression, nonChannel,
     const start = option.startTime + songStartTime + baseLatency;
     const stop = option.stopTime + songStartTime + baseLatency;
     const pitch = settings.basePitch * Math.pow(Math.pow(2, 1/12), (option.pitch || 69) - 69);
-    const oscillator = /*!isDrum ? context.createOscillator() :*/ context.createBufferSource();
+    const oscillator = option.isPercussion ? context.createOscillator() : context.createBufferSource();
     const panNode = context.createStereoPanner ? context.createStereoPanner()
         : context.createPanner ? context.createPanner()
         : { pan: { setValueAtTime: ()=>{} } };
@@ -47,22 +47,22 @@ export default function createBaseNote(option, isDrum, isExpression, nonChannel,
     // ドラムはホワイトノイズ、ドラム以外はoscillatorを設定 //
     // oscillatorはピッチ変動も設定 //
     if (!isDrum) {
-        /*
-        oscillator.type = option.type || "sine";
-        oscillator.detune.value = 0;
-        oscillator.frequency.value = pitch;
-        option.pitchBend ? option.pitchBend.forEach((p) => {
-            let t = p.time + songStartTime + baseLatency;
-            if (t < 0) t = 0;
-            oscillator.frequency.setValueAtTime(
-                settings.basePitch * Math.pow(Math.pow(2, 1/12), option.pitch - 69 + p.value),
-                t
-            );
-        }) : false;
-        */
-        
-        this.setFrequency(oscillator, pitch);
-        oscillator.loop = true;
+        if (option.isPercussion) {
+            oscillator.type = option.type || "sine";
+            oscillator.detune.value = 0;
+            oscillator.frequency.value = pitch;
+            option.pitchBend ? option.pitchBend.forEach((p) => {
+                let t = p.time + songStartTime + baseLatency;
+                if (t < 0) t = 0;
+                oscillator.frequency.setValueAtTime(
+                    settings.basePitch * Math.pow(Math.pow(2, 1/12), option.pitch - 69 + p.value),
+                    t
+                );
+            }) : false;
+        } else {
+            this.setFrequency(oscillator, pitch);
+            oscillator.loop = true;            
+        }
     } else {
         oscillator.loop = true;
         oscillator.buffer = this.whitenoise;

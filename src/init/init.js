@@ -48,7 +48,8 @@ export default function init(argsObj) {
     if (picoAudio && picoAudio.fmtones) { // 使いまわし
         this.fmtones = picoAudio.fmtones;
     } else {
-        const baseFreq=48; // Buffer生音の周波数(main.jsも参照)
+        const baseFreq=48;
+        this.baseFreq=baseFreq;
         const lambda=sampleRate/baseFreq; // sampleRate=48000 -> lambda=1000
         const wavParams=[
             {w:3, a:0.75, l:1},
@@ -56,17 +57,18 @@ export default function init(argsObj) {
             {w:2, a:0.5, l:1},
             {w:5, a:0.2, l:1},
         ];
-        this.fmtones=wavParams.map(({w,a,l})=>
+        this.fmtones=[];/*wavParams.map(({w,a,l})=>
             this.context.createBuffer(1, lambda*l, sampleRate)
-        );
+        );*/
         const s=t=>Math.sin(t*Math.PI*2)*1;
-        for (let j=0; j<wavParams.length;j++) {
-            const {w,a,l}=wavParams[j];
-            const data=this.fmtones[j].getChannelData(0);
-            for (let i=0;i<data.length;i++) {
+        for (let j=0; j<128;j++) {
+            const {w,a,l}=wavParams[j%wavParams.length];
+            const data=[];
+            for (let i=0;i<lambda*l;i++) {
                 const t=i/lambda;
                 data[i]=s(t+s(t*w)*a);
             }
+            this.setWaveData(j, data);
         }
     }
     // リバーブ用のインパルス応答音声データ作成（てきとう） //
