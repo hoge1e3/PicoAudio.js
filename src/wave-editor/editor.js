@@ -4,6 +4,9 @@ import * as exprs from "./expr.js";
 export function setup(picoAudio) {
     let insts={};
     const elem=(tag, parent) => {
+        if (typeof parent==="string" && typeof tag==="object") {
+            [tag,parent]=[parent,tag];
+        }
         const r=document.createElement(tag);
         if (parent) parent.appendChild(r);
         return r;
@@ -20,29 +23,30 @@ export function setup(picoAudio) {
     picoAudio.addEventListener('noteOn',e => {
         //console.log(e);
         if (!insts[e.instrument]) {
-            insts[e.instrument]=instNode(e.instrument, instsDOM);//document.createElement("div");
+            insts[e.instrument]=instNode(instsDOM, e.instrument);//document.createElement("div");
             //instNode.innerHTML=e.instrument+": "+instNames[e.instrument];
             //document.body.appendChild(n);
         }
         insts[e.instrument].flash();
     });
     const randcands=[
-    "s(t+s(t*5)*0.16)*0.3",
-    "s(t+s(t*1/2)*1.48)*0.3",
-    "s(t+s(t*1)*1.1)*0.3",
-    "s(t+s(t*3)*0.75)*0.3",
-    "s(t+s(t*8)*0.1)*0.3",
-    "s(t+s(t*1/2)*0.6)*0.3",
-    "s(t+s(t*1/4)*1.4)*0.3",
-    "s(t+s(t*1)*1)*0.3",
-    "s(t+s(t*2/1)*0.18)*0.3",
-    "s(t+s(t*1/1)*0.5)*0.3",
+    "s(t+s(t*5)*0.16)*0.9",
+    "s(t+s(t*1/2)*1.48)*0.9",
+    "s(t+s(t*1)*1.1)*0.9",
+    "s(t+s(t*3)*0.75)*0.9",
+    "s(t+s(t*8)*0.1)*0.9",
+    "s(t+s(t*1/2)*0.6)*0.9",
+    "s(t+s(t*1/4)*1.4)*0.9",
+    "s(t+s(t*1)*1)*0.9",
+    "s(t+s(t*2/1)*0.18)*0.9",
+    "s(t+s(t*1/1)*0.5)*0.9",
     ];
-    function instNode(instNo, parent) {
+    function instNode(parent, instNo) {
         const dom=elem("div", parent);
         const level=elem("span", dom);
         level.innerHTML=instNo+": "+instNames[instNo];
-
+        const res={dom, flash};//, mute, set};
+        exprEditor(res);
         get(url,{no:instNo}).then(r=>{
             console.log(r);
             if (Object.keys(r).length==0) {
@@ -53,7 +57,7 @@ export function setup(picoAudio) {
             for (let e of Object.keys(r)) {
                 //console.log(r[e]);
                 r[e].no=instNo;
-                dom.appendChild(waveNode(e, r[e], doSet));
+                waveNode(res, e, r[e], doSet);
                 doSet=false;
             }
         },e=>console.error(e));
@@ -70,11 +74,17 @@ export function setup(picoAudio) {
                 clearInterval(th);
             }
         },100);
-        return {dom, flash};
+        return res;
+    }
+    function exprEditor() {
+        
     }
     const url="data.php";
-    function waveNode(expr, info, doSet) {
-        const res=elem("span");
+    function muteOther(no) {
+
+    }
+    function waveNode(parent, expr, info, doSet) {
+        const res=elem(parent.dom, "span");
         const ui_expr=elem("input",res);
         const no=info.no;
         const ui_send=elem("button",res);
