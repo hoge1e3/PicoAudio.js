@@ -37,7 +37,7 @@ export default function createBaseNote(option, isDrum, isExpression, nonChannel,
     const start = option.startTime + songStartTime + baseLatency;
     const stop = option.stopTime + songStartTime + baseLatency;
     const pitch = settings.basePitch * Math.pow(Math.pow(2, 1/12), (option.pitch || 69) - 69);
-    const oscillator = option.isPercussion ? context.createOscillator() : context.createBufferSource();
+    const oscillator = (option.isPercussion && !isDrum) ? context.createOscillator() : context.createBufferSource();
     const panNode = context.createStereoPanner ? context.createStereoPanner()
         : context.createPanner ? context.createPanner()
         : { pan: { setValueAtTime: ()=>{} } };
