@@ -48,21 +48,21 @@ export default function createBaseNote(option, isDrum, isExpression, nonChannel,
     // oscillatorはピッチ変動も設定 //
     if (!isDrum) {
         if (option.isPercussion) {
-            oscillator.type = option.type || "sine";
+            oscillator.type = option.type || "square";
             oscillator.detune.value = 0;
             oscillator.frequency.value = pitch;
-            option.pitchBend ? option.pitchBend.forEach((p) => {
-                let t = p.time + songStartTime + baseLatency;
-                if (t < 0) t = 0;
-                oscillator.frequency.setValueAtTime(
-                    settings.basePitch * Math.pow(Math.pow(2, 1/12), option.pitch - 69 + p.value),
-                    t
-                );
-            }) : false;
         } else {
             this.setFrequency(oscillator, pitch);
-            oscillator.loop = true;            
+            oscillator.loop = true;
         }
+        if (option.pitchBend) option.pitchBend.forEach((p) => {
+            let t = p.time + songStartTime + baseLatency;
+            if (t < 0) t = 0;
+            this.setFrequency(oscillator,
+                settings.basePitch * Math.pow(Math.pow(2, 1/12), option.pitch - 69 + p.value),
+                t
+            );
+        });
     } else {
         oscillator.loop = true;
         oscillator.buffer = this.whitenoise;

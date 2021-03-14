@@ -1,6 +1,5 @@
 export default function createPercussionNote(option) {
-    const o=Object.assign(option,{isPercussion:false});
-    const note = this.createBaseNote(o, true, false);
+    const note = this.createBaseNote(option, true, false);
     if (note.isGainValueZero) return null;
 
     const source = note.oscillator;
@@ -8,6 +7,7 @@ export default function createPercussionNote(option) {
     const stopGainNode = note.stopGainNode;
     let start = note.start;
     const velocity = 1; // ドラム全体の音量調整用
+    const o=Object.assign(option,{isPercussion:true});
     const note2 = this.createBaseNote(option, false, false, true);
     const oscillator = note2.oscillator;
     const gainNode2 = note2.gainNode;
